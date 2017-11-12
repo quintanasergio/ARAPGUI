@@ -5,6 +5,8 @@
 #include <QTextStream>
 #include <QString>
 #include <QDebug>
+#include <QDir>
+#include <QProcess>
 #include "form.h"
 #include "form2.h"
 #include "form3.h"
@@ -17,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("ARAP GUI");
+
 }
 
 MainWindow::~MainWindow()
@@ -115,7 +119,8 @@ void MainWindow::on_pushButton_7_clicked()
 //Escribe los parámetros a un archivo y comienza la simulación
 void MainWindow::on_Finish_clicked()
 {
-    QFile file("test.txt");
+    QString direc = QDir::homePath() + "/Documentos/simulador-arap-v1.0-master/arap-dir/"+ ui->nombreex->text() +".txt";
+    QFile file(direc);
     if(!file.open(QFile::WriteOnly | QFile::Text)){
         QMessageBox::warning(this, "error", "File not open");
     }
@@ -124,8 +129,6 @@ void MainWindow::on_Finish_clicked()
     out << "nodos " << ui->nodos->value() << "\n";
 
     out << "semilla " << ui->seedNumber->value() << "\n";
-
-    out << "ejecucion " << ui->execNumber->value() << "\n";
 
     if(ui->checkBox_2->isChecked())
     {out << "usar-trazas 1" << "\n";} else {
@@ -189,7 +192,7 @@ void MainWindow::on_Finish_clicked()
                         << ui->distnormal_var->value() << " " << ui->distnormal_lim->value() << "\n";
                     break;
             }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     out << "delay-computo-dist "<< ui->dist2from->value() <<" "<< ui->dist2to->value();
     switch (ui->indexdist2->currentIndex())
             {
@@ -271,7 +274,6 @@ void MainWindow::on_Finish_clicked()
 
     out << "imprimir-tablas-intervalo " << ui->printinterval->value() <<"\n";
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     out << "hormigacarga-tiempo-dist "<< ui->hormigatd_from->value() <<" "<< ui->hormigatd_to->value();
     switch (ui->indexdist3->currentIndex())
             {
@@ -329,7 +331,6 @@ void MainWindow::on_Finish_clicked()
     }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     out << "hormigacarga-cantidad-dist "<< ui->hormigacd_from->value() <<" "<< ui->hormigacd_to->value();
     switch (ui->indexdist4->currentIndex())
             {
@@ -386,7 +387,6 @@ void MainWindow::on_Finish_clicked()
                 }
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     out << "hormigacarga-destino-dist "<< ui->hormigadd_from->value() <<" "<< ui->hormigadd_to->value();
     switch (ui->indexdist5->currentIndex())
             {
@@ -443,11 +443,17 @@ void MainWindow::on_Finish_clicked()
                 }
     }
 
-    out << "Fin";
-
 
     file.flush();
     file.close();
+    /*FIN DE ARCHIVO*/
+
+    /*Ejecuta un programa que ordena archivos y a su vez ejectuta simulador ARAP con los parametros de nombre nombreex*/
+
+    QString towrite;
+    towrite = "../../Proyectos/build-consola-Desktop_Qt_5_7_0_GCC_64bit-Release/consola "+ ui->nombreex->text() +" "+ui->cantEjec->text()+" &";
+    system(towrite.toLatin1().data());
+
 }
 
 
@@ -549,16 +555,6 @@ void MainWindow::outlist7(QString name)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 //navegacion entre tabs
 
 void MainWindow::on_next_0_clicked()
@@ -629,4 +625,18 @@ void MainWindow::on_prev_6_clicked()
 void MainWindow::on_prev_7_clicked()
 {
     ui->tabWidget->setCurrentIndex(6);
+}
+
+/*Cambia el máximo número de nodo en los rangos de nodos al cambiar el numero de nodos*/
+void MainWindow::on_nodos_editingFinished()
+{
+    int arg1 = ui->nodos->value() - 1;
+    ui->hormigacd_to->setValue(arg1);
+    ui->hormigadd_to->setValue(arg1);
+    ui->hormigatd_to->setValue(arg1);
+    ui->appinit_to->setValue(arg1);
+    ui->datarate_to->setValue(arg1);
+    ui->delayinc_to->setValue(arg1);
+    ui->dist2to->setValue(arg1);
+    ui->d5unimax->setValue(arg1);
 }

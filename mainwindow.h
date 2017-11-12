@@ -80,6 +80,8 @@ private slots:
 
     void on_indexdist3_currentIndexChanged(int index);
 
+    void on_nodos_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 };

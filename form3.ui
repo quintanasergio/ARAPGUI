@@ -85,7 +85,7 @@
       <rect>
        <x>20</x>
        <y>0</y>
-       <width>131</width>
+       <width>137</width>
        <height>25</height>
       </rect>
      </property>
@@ -100,7 +100,7 @@
       <item>
        <widget class="QDoubleSpinBox" name="unimin">
         <property name="maximum">
-         <double>999.990000000000009</double>
+         <double>9999.989999999999782</double>
         </property>
        </widget>
       </item>
@@ -111,7 +111,7 @@
       <rect>
        <x>160</x>
        <y>0</y>
-       <width>134</width>
+       <width>141</width>
        <height>25</height>
       </rect>
      </property>
@@ -126,7 +126,7 @@
       <item>
        <widget class="QDoubleSpinBox" name="unimax">
         <property name="maximum">
-         <double>999.990000000000009</double>
+         <double>9999.989999999999782</double>
         </property>
         <property name="value">
          <double>50.000000000000000</double>
@@ -389,7 +389,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>-</string>
+    <string>−</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
